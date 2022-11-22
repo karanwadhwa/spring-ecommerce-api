@@ -1,15 +1,25 @@
-package edu.neu.karanwadhwa.springecommerceapi.auth;
+package edu.neu.karanwadhwa.springecommerceapi.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import java.util.UUID;
+
+@Entity
 public class User {
-    private int id;
+    @Id
+    @GeneratedValue
+    private UUID userid;
     private String fname;
     private String lname;
     private String email;
     private String password;
     private String usertype;
 
-    public User(int id, String fname, String lname, String email, String password, String usertype) {
-        this.id = id;
+    public User(){
+    }
+
+    public User(String fname, String lname, String email, String password, String usertype) {
         this.fname = fname;
         this.lname = lname;
         this.email = email;
@@ -17,12 +27,8 @@ public class User {
         this.usertype = usertype;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public UUID getUserid() {
+        return userid;
     }
 
     public String getFname() {
