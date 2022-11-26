@@ -30,7 +30,7 @@ public class ProductService {
         return productRepository.findById(id).orElse(null);
     }
 
-    public Product getProductByName(String name){
+    public List<Product> getProductByName(String name){
         return productRepository.findByName(name);
     }
 
