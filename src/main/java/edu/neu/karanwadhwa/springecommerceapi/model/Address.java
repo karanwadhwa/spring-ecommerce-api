@@ -2,21 +2,15 @@ package edu.neu.karanwadhwa.springecommerceapi.model;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name="ADDRESSES")
+//@Entity
+//@Table(name="ADDRESSES")
+@Embeddable
 public class Address {
-    @Id
-    @GeneratedValue
-    private int id;
     private String street;
     private String apt;
     private String city;
     private String country;
     private String pin;
-
-    public int getId() {
-        return id;
-    }
 
     public String getStreet() {
         return street;
