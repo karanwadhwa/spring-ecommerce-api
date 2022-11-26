@@ -3,6 +3,8 @@ package edu.neu.karanwadhwa.springecommerceapi.service;
 import edu.neu.karanwadhwa.springecommerceapi.model.Address;
 import edu.neu.karanwadhwa.springecommerceapi.model.User;
 import edu.neu.karanwadhwa.springecommerceapi.repository.UserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -23,11 +25,14 @@ public class UserService {
         return repository.findById(userid).orElse(null);
     }
 
-    public User addUserAddress(int userid, Address address){
+    public ResponseEntity<User> addUserAddress(int userid, Address address){
         User user = getUserById(userid);
+        if(!user.getUsertype().equals("customer")){
+            throw new UserNotAllowedException(user.getUsertype());
+        }
         Collection<Address> newAddresses = user.getAddresses();
         newAddresses.add(address);
         user.setAddresses(newAddresses);
-        return repository.save(user);
+        return new ResponseEntity<>(repository.save(user), HttpStatus.CREATED);
     }
 }

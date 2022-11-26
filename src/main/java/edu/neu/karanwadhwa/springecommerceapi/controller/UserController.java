@@ -3,6 +3,7 @@ package edu.neu.karanwadhwa.springecommerceapi.controller;
 import edu.neu.karanwadhwa.springecommerceapi.model.Address;
 import edu.neu.karanwadhwa.springecommerceapi.model.User;
 import edu.neu.karanwadhwa.springecommerceapi.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping("/user/{userid}/address/add")
-    public User addUserAddress(@PathVariable int userid, @RequestBody Address address){
+    public ResponseEntity<User> addUserAddress(@PathVariable int userid, @RequestBody Address address){
         return service.addUserAddress(userid, address);
     }
 }
