@@ -3,6 +3,7 @@ package edu.neu.karanwadhwa.springecommerceapi.service;
 import edu.neu.karanwadhwa.springecommerceapi.model.Address;
 import edu.neu.karanwadhwa.springecommerceapi.model.User;
 import edu.neu.karanwadhwa.springecommerceapi.repository.UserRepository;
+import edu.neu.karanwadhwa.springecommerceapi.validation.UserNotAllowedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

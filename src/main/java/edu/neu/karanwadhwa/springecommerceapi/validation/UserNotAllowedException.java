@@ -1,7 +1,7 @@
-package edu.neu.karanwadhwa.springecommerceapi.service;
+package edu.neu.karanwadhwa.springecommerceapi.validation;
 
 public class UserNotAllowedException extends RuntimeException {
-    UserNotAllowedException(String usertype){
+    public UserNotAllowedException(String usertype){
         super("Cannot perform action on user type: "+usertype);
     }
 }

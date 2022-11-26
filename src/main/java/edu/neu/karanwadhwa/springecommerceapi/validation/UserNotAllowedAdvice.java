@@ -1,4 +1,4 @@
-package edu.neu.karanwadhwa.springecommerceapi.service;
+package edu.neu.karanwadhwa.springecommerceapi.validation;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
