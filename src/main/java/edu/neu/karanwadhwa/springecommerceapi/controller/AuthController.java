@@ -1,22 +1,21 @@
 package edu.neu.karanwadhwa.springecommerceapi.controller;
 
 import edu.neu.karanwadhwa.springecommerceapi.model.User;
-import edu.neu.karanwadhwa.springecommerceapi.repository.UserRepository;
+import edu.neu.karanwadhwa.springecommerceapi.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthController {
 
-    private final UserRepository userRepository;
+    private final UserService service;
 
-    public AuthController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public AuthController(UserService service) {
+        this.service = service;
     }
 
     @PostMapping("/auth/signup")
-    public User signup(@RequestParam String fname, @RequestParam String lname, @RequestParam String email, @RequestParam String password, @RequestParam String usertype){
-        User user = new User(fname,lname, email, password, usertype);
-        return userRepository.save(user);
+    public User signup(@RequestBody User user){
+        return service.createUser(user);
     }
 
     @GetMapping("/auth/test")
