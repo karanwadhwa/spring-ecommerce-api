@@ -1,34 +1,48 @@
 package edu.neu.karanwadhwa.springecommerceapi.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
+@Table(name="USERS")
 public class User {
     @Id
     @GeneratedValue
-    private UUID userid;
+    private int userid;
+    @Column(nullable = false)
     private String fname;
     private String lname;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    @Column(nullable = false)
     private String usertype;
 
+    @ElementCollection
+    @JoinTable(name = "USER_ADDRESS", joinColumns = @JoinColumn(name = "USER_ID"))
+    @GenericGenerator(name = "sequence_gen", strategy = "sequence")
+    @CollectionId(column = @Column(name = "ADDRESS_ID"), type = @Type(type = "int"), generator = "sequence_gen")
+    private Collection<Address> addresses = new ArrayList<>();
     public User(){
     }
 
-    public User(String fname, String lname, String email, String password, String usertype) {
-        this.fname = fname;
-        this.lname = lname;
-        this.email = email;
-        this.password = password;
-        this.usertype = usertype;
+    public int getUserid() {
+        return userid;
     }
 
-    public UUID getUserid() {
-        return userid;
+    public void setUserid(int userid){
+        this.userid = userid;
     }
 
     public String getFname() {
@@ -69,5 +83,13 @@ public class User {
 
     public void setUsertype(String usertype) {
         this.usertype = usertype;
+    }
+
+    public Collection<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(Collection<Address> addresses) {
+        this.addresses = addresses;
     }
 }
