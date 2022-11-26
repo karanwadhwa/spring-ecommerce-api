@@ -2,7 +2,10 @@ package edu.neu.karanwadhwa.springecommerceapi.controller;
 
 import edu.neu.karanwadhwa.springecommerceapi.model.User;
 import edu.neu.karanwadhwa.springecommerceapi.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 public class AuthController {
@@ -18,8 +21,11 @@ public class AuthController {
         return service.createUser(user);
     }
 
-    @GetMapping("/auth/test")
-    public @ResponseBody String test(){
-        return "Auth test";
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<User> login(@RequestBody Map<String, String> requestBody){
+        String email = requestBody.get("email");
+        String password = requestBody.get("password");
+        return service.loginUser(email, password);
     }
 }
