@@ -1,5 +1,7 @@
 package edu.neu.karanwadhwa.springecommerceapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,7 +13,9 @@ public class Product {
     private String name;
     private int quantity;
     private double price;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "SELLER_ID")
     private User seller;
 
     public Product() {
@@ -51,5 +55,15 @@ public class Product {
 
     public void setSeller(User seller) {
         this.seller = seller;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", name='" + name + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                '}';
     }
 }

@@ -26,9 +26,10 @@ public class ProductService {
     public ResponseEntity<User> createProduct(int userid, Product product){
         User seller = userRepository.findById(userid).orElse(null);
         if(seller == null) throw new UserAuthenticationException("Seller Not found!");
-        if(!seller.getUsertype().equals("seller") || !seller.getUsertype().equals("admin"))
+        if(!seller.getUsertype().equals("seller") && !seller.getUsertype().equals("admin"))
             throw new UserNotAllowedException(seller.getUsertype());
         Collection<Product> inventory = seller.getInventory();
+        product.setSeller(seller);
         inventory.add(product);
         seller.setInventory(inventory);
         return new ResponseEntity<>(userRepository.save(seller), HttpStatus.CREATED);
