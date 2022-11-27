@@ -34,6 +34,15 @@ public class User {
     @GenericGenerator(name = "sequence_gen", strategy = "sequence")
     @CollectionId(column = @Column(name = "ADDRESS_ID"), type = @Type(type = "int"), generator = "sequence_gen")
     private Collection<Address> addresses = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name="SELLER_PRODUCTS",
+            joinColumns = @JoinColumn(name="SELLER_ID"),
+            inverseJoinColumns = @JoinColumn(name="PRODUCT_ID")
+    )
+    private Collection<Product> inventory = new ArrayList<>();
+
     public User(){
     }
 
@@ -91,5 +100,13 @@ public class User {
 
     public void setAddresses(Collection<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public Collection<Product> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Collection<Product> inventory) {
+        this.inventory = inventory;
     }
 }

@@ -1,7 +1,9 @@
 package edu.neu.karanwadhwa.springecommerceapi.controller;
 
 import edu.neu.karanwadhwa.springecommerceapi.model.Product;
+import edu.neu.karanwadhwa.springecommerceapi.model.User;
 import edu.neu.karanwadhwa.springecommerceapi.service.ProductService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,15 +17,15 @@ public class ProductController {
         this.service = service;
     }
 
-    @PostMapping("/product/create")
-    public Product createProduct(@RequestBody Product product){
-        return service.createProduct(product);
+    @PostMapping("/user/{userid}/product/create")
+    public ResponseEntity<User> createProduct(@PathVariable int userid, @RequestBody Product product){
+        return service.createProduct(userid, product);
     }
 
-    @PostMapping("/product/create-multi")
-    public List<Product> createProducts(@RequestBody List<Product> products){
-        return service.createProducts(products);
-    }
+//    @PostMapping("/product/create-multi")
+//    public List<Product> createProducts(@RequestBody List<Product> products){
+//        return service.createProducts(products);
+//    }
 
     @GetMapping("/product/all")
     public List<Product> getProducts(){

@@ -1,9 +1,6 @@
 package edu.neu.karanwadhwa.springecommerceapi.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="PRODUCTS")
@@ -14,6 +11,8 @@ public class Product {
     private String name;
     private int quantity;
     private double price;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User seller;
 
     public Product() {
     }
@@ -44,5 +43,13 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public User getSeller() {
+        return seller;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
     }
 }
