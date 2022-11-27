@@ -38,6 +38,10 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "seller")
     private Collection<Product> inventory = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<Order> orders = new ArrayList<>();
+
+
     public User(){
     }
 
@@ -103,6 +107,16 @@ public class User {
 
     public void setInventory(Collection<Product> inventory) {
         this.inventory = inventory;
+    }
+
+    public void addToInventory(Product product){
+        product.setSeller(this);
+        this.inventory.add(product);
+    }
+
+    public void addToOrders(Order order){
+        order.setUser(this);
+        this.orders.add(order);
     }
 
     @Override
