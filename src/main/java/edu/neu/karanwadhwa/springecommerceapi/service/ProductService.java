@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -28,10 +27,7 @@ public class ProductService {
         if(seller == null) throw new UserAuthenticationException("Seller Not found!");
         if(!seller.getUsertype().equals("seller") && !seller.getUsertype().equals("admin"))
             throw new UserNotAllowedException(seller.getUsertype());
-        Collection<Product> inventory = seller.getInventory();
-        product.setSeller(seller);
-        inventory.add(product);
-        seller.setInventory(inventory);
+        seller.addToInventory(product);
         return new ResponseEntity<>(userRepository.save(seller), HttpStatus.CREATED);
     }
 
