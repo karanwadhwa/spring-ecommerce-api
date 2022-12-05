@@ -35,9 +35,6 @@ public class User {
     @CollectionId(column = @Column(name = "ADDRESS_ID"), type = @Type(type = "int"), generator = "sequence_gen")
     private Collection<Address> addresses = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "seller")
-    private Collection<Product> inventory = new ArrayList<>();
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Collection<Order> orders = new ArrayList<>();
 
@@ -99,19 +96,6 @@ public class User {
 
     public void setAddresses(Collection<Address> addresses) {
         this.addresses = addresses;
-    }
-
-    public Collection<Product> getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Collection<Product> inventory) {
-        this.inventory = inventory;
-    }
-
-    public void addToInventory(Product product){
-        product.setSeller(this);
-        this.inventory.add(product);
     }
 
     public void addToOrders(Order order){
