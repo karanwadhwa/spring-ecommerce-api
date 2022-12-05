@@ -22,13 +22,13 @@ public class ProductService {
         this.userRepository = userRepository;
     }
 
-    public ResponseEntity<User> createProduct(int userid, Product product){
-        User seller = userRepository.findById(userid).orElse(null);
+    public ResponseEntity<Product> createProduct(Product product){
+        int sellerId = product.getSellerId();
+        User seller = userRepository.findById(sellerId).orElse(null);
         if(seller == null) throw new UserAuthenticationException("Seller Not found!");
-        if(!seller.getUsertype().equals("seller") && !seller.getUsertype().equals("admin"))
+        if(!seller.getUsertype().equals("seller"))
             throw new UserNotAllowedException(seller.getUsertype());
-        seller.addToInventory(product);
-        return new ResponseEntity<>(userRepository.save(seller), HttpStatus.CREATED);
+        return new ResponseEntity<>(productRepository.save(product), HttpStatus.CREATED);
     }
 
     public List<Product> getProducts(){
@@ -48,11 +48,17 @@ public class ProductService {
         oldProduct.setName(newItem.getName());
         oldProduct.setPrice(newItem.getPrice());
         oldProduct.setQuantity(newItem.getQuantity());
+        oldProduct.setThumbnail_url(newItem.getThumbnail_url());
+        oldProduct.setDescription(newItem.getDescription());
         return productRepository.save(oldProduct);
     }
 
     public String deleteProductById(int id){
         productRepository.deleteById(id);
         return "Product deleted: #"+id;
+    }
+
+    public List<Product> getProductBySellerId(int sellerId) {
+        return productRepository.findBySellerId(sellerId);
     }
 }
