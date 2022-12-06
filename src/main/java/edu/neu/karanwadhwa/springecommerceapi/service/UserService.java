@@ -15,11 +15,11 @@ public class UserService {
     private final UserDAO userDAO = new UserDAOImpl();
 
     public User createUser(User user) {
-        return userDAO.createUser(user);
+        return userDAO.create(user);
     }
 
     public User getUserById(int userid) {
-        return userDAO.getUserById(userid);
+        return userDAO.findById(userid);
     }
 
 //    private User getUserByEmail(String email) {
@@ -38,11 +38,11 @@ public class UserService {
 //    }
 
     public ResponseEntity<User> addUserAddress(int userid, Address address) {
-        User user = userDAO.getUserById(userid);
+        User user = userDAO.findById(userid);
         if (!user.getUsertype().equals("customer")) {
             throw new UserNotAllowedException(user.getUsertype());
         }
         user.getAddresses().add(address);
-        return new ResponseEntity<>(userDAO.updateUser(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(userDAO.update(user), HttpStatus.CREATED);
     }
 }

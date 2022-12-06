@@ -1,9 +1,11 @@
 package edu.neu.karanwadhwa.springecommerceapi.service;
 
+import edu.neu.karanwadhwa.springecommerceapi.dao.ProductDAO;
+import edu.neu.karanwadhwa.springecommerceapi.dao.UserDAO;
+import edu.neu.karanwadhwa.springecommerceapi.dao.impl.ProductDAOImpl;
+import edu.neu.karanwadhwa.springecommerceapi.dao.impl.UserDAOImpl;
 import edu.neu.karanwadhwa.springecommerceapi.model.Product;
 import edu.neu.karanwadhwa.springecommerceapi.model.User;
-import edu.neu.karanwadhwa.springecommerceapi.repository.ProductRepository;
-import edu.neu.karanwadhwa.springecommerceapi.repository.UserRepository;
 import edu.neu.karanwadhwa.springecommerceapi.validation.UserAuthenticationException;
 import edu.neu.karanwadhwa.springecommerceapi.validation.UserNotAllowedException;
 import org.springframework.http.HttpStatus;
@@ -14,51 +16,46 @@ import java.util.List;
 
 @Service
 public class ProductService {
-    private final ProductRepository productRepository;
-    private final UserRepository userRepository;
-
-    public ProductService(ProductRepository productRepository, UserRepository userRepository) {
-        this.productRepository = productRepository;
-        this.userRepository = userRepository;
-    }
+    private final ProductDAO productDAO = new ProductDAOImpl();
+    private final UserDAO userDAO = new UserDAOImpl();
 
     public ResponseEntity<Product> createProduct(Product product){
         int sellerId = product.getSellerId();
-        User seller = userRepository.findById(sellerId).orElse(null);
+        User seller = userDAO.findById(sellerId);
         if(seller == null) throw new UserAuthenticationException("Seller Not found!");
         if(!seller.getUsertype().equals("seller"))
             throw new UserNotAllowedException(seller.getUsertype());
-        return new ResponseEntity<>(productRepository.save(product), HttpStatus.CREATED);
+        return new ResponseEntity<>(productDAO.create(product), HttpStatus.CREATED);
     }
 
-    public List<Product> getProducts(){
-        return (List<Product>) productRepository.findAll();
-    }
+//    public List<Product> getProducts(){
+//        return (List<Product>) productRepository.findAll();
+//    }
 
     public Product getProductById(int id){
-        return productRepository.findById(id).orElse(null);
+        return productDAO.findById(id);
     }
 
-    public List<Product> getProductByName(String name){
-        return productRepository.findByName(name);
-    }
+//    public List<Product> getProductByName(String name){
+//        return productRepository.findByName(name);
+//    }
 
     public Product updateProduct(Product newItem){
-        Product oldProduct = getProductById(newItem.getProductId());
-        oldProduct.setName(newItem.getName());
-        oldProduct.setPrice(newItem.getPrice());
-        oldProduct.setQuantity(newItem.getQuantity());
-        oldProduct.setThumbnail_url(newItem.getThumbnail_url());
-        oldProduct.setDescription(newItem.getDescription());
-        return productRepository.save(oldProduct);
+        Product product = productDAO.findById(newItem.getProductId());
+        product.setName(newItem.getName());
+        product.setPrice(newItem.getPrice());
+        product.setQuantity(newItem.getQuantity());
+        product.setThumbnail_url(newItem.getThumbnail_url());
+        product.setDescription(newItem.getDescription());
+        return productDAO.update(product);
     }
 
     public String deleteProductById(int id){
-        productRepository.deleteById(id);
+        productDAO.delete(id);
         return "Product deleted: #"+id;
     }
 
-    public List<Product> getProductBySellerId(int sellerId) {
-        return productRepository.findBySellerId(sellerId);
-    }
+//    public List<Product> getProductBySellerId(int sellerId) {
+//        return productRepository.findBySellerId(sellerId);
+//    }
 }

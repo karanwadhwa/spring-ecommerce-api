@@ -3,7 +3,6 @@ package edu.neu.karanwadhwa.springecommerceapi.model;
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,8 +15,7 @@ public class Order {
     @Id
     @GeneratedValue
     private int orderId;
-    @CreatedDate
-    private Date createdOn;
+    private Date createdOn = new Date();
     private double orderTotal;
     private String status;
 
