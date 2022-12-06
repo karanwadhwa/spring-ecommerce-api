@@ -1,61 +1,73 @@
 package edu.neu.karanwadhwa.springecommerceapi.dao.impl;
 
-import edu.neu.karanwadhwa.springecommerceapi.dao.UserDAO;
-import edu.neu.karanwadhwa.springecommerceapi.model.User;
+import edu.neu.karanwadhwa.springecommerceapi.dao.ProductDAO;
+import edu.neu.karanwadhwa.springecommerceapi.model.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-public class UserDAOImpl implements UserDAO {
+public class ProductDAOImpl implements ProductDAO {
     private final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
     @Override
-    public User create(User user) {
+    public Product findById(int id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.persist(user);
-        session.getTransaction().commit();
-        session.close();
-        return user;
-    }
-
-    @Override
-    public User findById(int userid) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        User user = session.get(User.class, userid);
+        Product product = session.get(Product.class, id);
 
         session.getTransaction().commit();
         session.close();
-        return user;
+        return product;
     }
 
     @Override
-    public List<User> getAll(int userid) {
+    public List<Product> getAll(int userid) {
         return null;
     }
 
     @Override
-    public void delete(int userid) {
+    public Product create(Product product) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        User user = session.get(User.class, userid);
-        session.delete(user);
+        session.save(product);
+
+        session.getTransaction().commit();
+        session.close();
+        return product;
+    }
+
+    @Override
+    public Product update(Product product) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.saveOrUpdate(product);
+
+        session.getTransaction().commit();
+        session.close();
+        return product;
+    }
+
+    @Override
+    public void delete(int id) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Product product = session.get(Product.class, id);
+        session.delete(product);
 
         session.getTransaction().commit();
         session.close();
     }
 
     @Override
-    public User update(User user) {
+    public void saveAll(List<Product> products) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        session.saveOrUpdate(user);
+        for(Product product : products)
+            session.saveOrUpdate(product);
 
         session.getTransaction().commit();
         session.close();
-        return user;
     }
 }
