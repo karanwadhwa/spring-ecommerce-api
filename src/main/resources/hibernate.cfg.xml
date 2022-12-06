@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <!--Database connection settings-->
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/ecommerce</property>
+        <property name="dialect">org.hibernate.dialect.MySQL8Dialect</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">root</property>
+
+        <!--JDBC connection pool-->
+        <property name="connection.pool_size">3</property>
+
+        <!--echo all SQL executed to stdout-->
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+
+        <!--Drop and recreate database schema on startup-->
+        <property name="hbm2ddl.auto">update</property>
+
+        <!--Names the annotated entity class-->
+        <mapping class="edu.neu.karanwadhwa.springecommerceapi.model.User"/>
+        <mapping class="edu.neu.karanwadhwa.springecommerceapi.model.Address"/>
+        <mapping class="edu.neu.karanwadhwa.springecommerceapi.model.Product"/>
+        <mapping class="edu.neu.karanwadhwa.springecommerceapi.model.Order"/>
+        <mapping class="edu.neu.karanwadhwa.springecommerceapi.model.OrderItem"/>
+    </session-factory>
+</hibernate-configuration>
