@@ -29,7 +29,7 @@ public class User {
     @Column(nullable = false)
     private String usertype;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ADDRESS", joinColumns = @JoinColumn(name = "USER_ID"))
     @GenericGenerator(name = "sequence_gen", strategy = "sequence")
     @CollectionId(column = @Column(name = "ADDRESS_ID"), type = @Type(type = "int"), generator = "sequence_gen")
