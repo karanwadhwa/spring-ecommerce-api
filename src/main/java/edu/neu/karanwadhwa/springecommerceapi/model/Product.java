@@ -6,12 +6,12 @@ import javax.persistence.*;
 @Table(name="PRODUCTS")
 public class Product {
     @Id
-    @GeneratedValue
-    private int productId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
     private int quantity;
     private double price;
-    private int sellerId;
+    private int seller;
     private String thumbnail_url;
     private String description;
     private String category;
@@ -19,8 +19,12 @@ public class Product {
     public Product() {
     }
 
-    public int getProductId() {
-        return productId;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int productId) {
+        this.id = productId;
     }
 
     public String getName() {
@@ -47,12 +51,12 @@ public class Product {
         this.price = price;
     }
 
-    public int getSellerId() {
-        return sellerId;
+    public int getSeller() {
+        return seller;
     }
 
-    public void setSellerId(int sellerId) {
-        this.sellerId = sellerId;
+    public void setSeller(int sellerId) {
+        this.seller = sellerId;
     }
 
     public String getThumbnail_url() {
@@ -82,7 +86,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "productId=" + productId +
+                "productId=" + id +
                 ", name='" + name + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +

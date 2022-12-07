@@ -1,10 +1,11 @@
 package edu.neu.karanwadhwa.springecommerceapi.model;
 
-import org.hibernate.annotations.CollectionId;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -13,13 +14,16 @@ import java.util.Date;
 @Table(name = "ORDERS")
 public class Order {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ORDER_ID")
     private int orderId;
+    @Column(name = "CREATED_ON")
     private Date createdOn = new Date();
+    @Column(name = "ORDER_TOTAL")
     private double orderTotal;
     private String status;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @JoinTable(name = "CUSTOMER_ORDERS", joinColumns = @JoinColumn(name = "USER_ID"))
     @GenericGenerator(name = "sequence_gen", strategy = "sequence")
     @CollectionId(column = @Column(name = "ORDER_ID"), type = @Type(type = "int"), generator = "sequence_gen")
@@ -27,6 +31,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
+    @JsonIgnore // avoid cyclic fetching
     private User user;
 
     public int getOrderId() {
