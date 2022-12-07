@@ -2,6 +2,7 @@ package edu.neu.karanwadhwa.springecommerceapi.dao.impl;
 
 import edu.neu.karanwadhwa.springecommerceapi.dao.OrderDAO;
 import edu.neu.karanwadhwa.springecommerceapi.model.Order;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -24,7 +25,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public List<Order> getAll(int sellerId) {
+    public List<Order> getAll(int id) {
         return null;
     }
 
@@ -41,5 +42,15 @@ public class OrderDAOImpl implements OrderDAO {
     @Override
     public void delete(int id) {
 
+    }
+
+    @Override
+    public List<Order> findByUserId(int userid) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+//        Query query = session.createQuery("SELECT o.orderId, o.createdOn, o.orderTotal, o.status, o.items FROM Order o left join fetch o.user where o.user.id = :useridParam");
+        Query query = session.createQuery("FROM Order o left join fetch o.user where o.user.id = :useridParam");
+        query.setParameter("useridParam", userid);
+        return (List<Order>) query.list();
     }
 }

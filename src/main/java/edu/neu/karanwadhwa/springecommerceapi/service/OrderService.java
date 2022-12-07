@@ -10,7 +10,6 @@ import edu.neu.karanwadhwa.springecommerceapi.model.Order;
 import edu.neu.karanwadhwa.springecommerceapi.model.OrderItem;
 import edu.neu.karanwadhwa.springecommerceapi.model.Product;
 import edu.neu.karanwadhwa.springecommerceapi.model.User;
-import edu.neu.karanwadhwa.springecommerceapi.repository.ProductRepository;
 import edu.neu.karanwadhwa.springecommerceapi.validation.UserAuthenticationException;
 import edu.neu.karanwadhwa.springecommerceapi.validation.UserNotAllowedException;
 import org.springframework.http.HttpStatus;
@@ -33,12 +32,11 @@ public class OrderService {
         return orderDAO.findById(orderId);
     }
 
-    public ResponseEntity<User> createOrder(int userid, Order order){
+    public ResponseEntity<Order> createOrder(int userid, Order order){
         User user = userDAO.findById(userid);
         if(user == null) throw new UserAuthenticationException("User Not found!");
         if(!user.getUsertype().equals("customer"))
             throw new UserNotAllowedException(user.getUsertype());
-        user.addToOrders(order);
         Collection<OrderItem> items = order.getItems();
         List<Product> products = new ArrayList<>();
         for (OrderItem item : items){
@@ -49,6 +47,10 @@ public class OrderService {
             }
         }
         productDAO.saveAll(products);
-        return new ResponseEntity<>(userDAO.update(user), HttpStatus.CREATED);
+        return new ResponseEntity<>(userDAO.createOrder(userid, order), HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<List<Order>> findOrders(int userid){
+        return new ResponseEntity<>(orderDAO.findByUserId(userid), HttpStatus.OK);
     }
 }

@@ -1,5 +1,6 @@
 package edu.neu.karanwadhwa.springecommerceapi.model;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -7,8 +8,11 @@ public class OrderItem {
     private String name;
     private int quantity;
     private double price;
+    @Column(name = "TOTAL_PRICE")
     private double totalPrice;
-    private int seller_id;
+    @Column(name = "SELLER_ID")
+    private int sellerId;
+    @Column(name = "PRODUCT_ID")
     private int productId;
 
     public String getName() {
@@ -43,12 +47,12 @@ public class OrderItem {
         this.totalPrice = totalPrice;
     }
 
-    public int getSeller_id() {
-        return seller_id;
+    public int getSellerId() {
+        return sellerId;
     }
 
-    public void setSeller_id(int seller_id) {
-        this.seller_id = seller_id;
+    public void setSellerId(int sellerId) {
+        this.sellerId = sellerId;
     }
 
     public int getProductId() {

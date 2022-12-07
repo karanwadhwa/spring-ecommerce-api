@@ -6,6 +6,8 @@ import edu.neu.karanwadhwa.springecommerceapi.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class OrderController {
@@ -21,7 +23,12 @@ public class OrderController {
     }
 
     @PutMapping("/user/{userid}/order/create")
-    public ResponseEntity<User> createOrder(@PathVariable int userid, @RequestBody Order order){
+    public ResponseEntity<Order> createOrder(@PathVariable int userid, @RequestBody Order order){
         return orderService.createOrder(userid, order);
+    }
+
+    @GetMapping("/user/{userid}/orders")
+    public ResponseEntity<List<Order>> getOrdersByUserId(@PathVariable int userid){
+        return orderService.findOrders(userid);
     }
 }
