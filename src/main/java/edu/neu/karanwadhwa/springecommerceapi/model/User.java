@@ -1,5 +1,6 @@
 package edu.neu.karanwadhwa.springecommerceapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
@@ -36,6 +37,7 @@ public class User {
     private Collection<Address> addresses = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonIgnore
     private Collection<Order> orders = new ArrayList<>();
 
 
@@ -101,6 +103,14 @@ public class User {
     public void addToOrders(Order order){
         order.setUser(this);
         this.orders.add(order);
+    }
+
+    public Collection<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Collection<Order> orders) {
+        this.orders = orders;
     }
 
     @Override

@@ -22,20 +22,20 @@ public class UserService {
         return userDAO.findById(userid);
     }
 
-//    private User getUserByEmail(String email) {
-//        return repository.findByEmail(email);
-//    }
+    private User getUserByEmail(String email) {
+        return userDAO.findByEmail(email);
+    }
 
-//    public ResponseEntity<User> loginUser(String email, String password) {
-//        User user = getUserByEmail(email);
-//        try {
-//            if (!user.getPassword().equals(password)) throw new UserAuthenticationException("Invalid password!");
-//        } catch (NullPointerException ex) {
-//            throw new UserAuthenticationException("User not found!");
-//        }
-//
-//        return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
-//    }
+    public ResponseEntity<User> loginUser(String email, String password) {
+        User user = getUserByEmail(email);
+        try {
+            if (!user.getPassword().equals(password)) throw new UserAuthenticationException("Invalid password!");
+        } catch (NullPointerException ex) {
+            throw new UserAuthenticationException("User not found!");
+        }
+
+        return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
+    }
 
     public ResponseEntity<User> addUserAddress(int userid, Address address) {
         User user = userDAO.findById(userid);
