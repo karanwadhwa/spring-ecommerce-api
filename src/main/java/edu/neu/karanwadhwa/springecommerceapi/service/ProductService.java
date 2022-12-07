@@ -12,15 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class ProductService {
     private final ProductDAO productDAO = new ProductDAOImpl();
     private final UserDAO userDAO = new UserDAOImpl();
 
     public ResponseEntity<Product> createProduct(Product product){
-        int sellerId = product.getSellerId();
+        int sellerId = product.getSeller();
         User seller = userDAO.findById(sellerId);
         if(seller == null) throw new UserAuthenticationException("Seller Not found!");
         if(!seller.getUsertype().equals("seller"))
@@ -41,7 +39,7 @@ public class ProductService {
 //    }
 
     public Product updateProduct(Product newItem){
-        Product product = productDAO.findById(newItem.getProductId());
+        Product product = productDAO.findById(newItem.getId());
         product.setName(newItem.getName());
         product.setPrice(newItem.getPrice());
         product.setQuantity(newItem.getQuantity());
