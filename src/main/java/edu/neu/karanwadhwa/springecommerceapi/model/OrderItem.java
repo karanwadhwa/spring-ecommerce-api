@@ -14,6 +14,8 @@ public class OrderItem {
     private int sellerId;
     @Column(name = "PRODUCT_ID")
     private int productId;
+    private String thumbnail_url;
+
 
     public String getName() {
         return name;
@@ -61,5 +63,13 @@ public class OrderItem {
 
     public void setProductId(int productId) {
         this.productId = productId;
+    }
+
+    public String getThumbnail_url() {
+        return thumbnail_url;
+    }
+
+    public void setThumbnail_url(String thumbnail_url) {
+        this.thumbnail_url = thumbnail_url;
     }
 }
