@@ -3,11 +3,14 @@ package edu.neu.karanwadhwa.springecommerceapi.dao.impl;
 import edu.neu.karanwadhwa.springecommerceapi.dao.UserDAO;
 import edu.neu.karanwadhwa.springecommerceapi.model.Order;
 import edu.neu.karanwadhwa.springecommerceapi.model.User;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import org.hibernate.Query;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
+
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
@@ -38,9 +41,12 @@ public class UserDAOImpl implements UserDAO {
     public User findByEmail(String email) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Query query = session.createQuery("FROM User where email = :emailParam");
-        query.setParameter("emailParam", email);
-        User user = (User) query.uniqueResult();
+
+        Criteria critera = session.createCriteria(User.class);
+        Criterion emailMatch = Restrictions.eq("email", email);
+        critera.add(emailMatch);
+
+        User user = (User) critera.uniqueResult();
 
         session.getTransaction().commit();
         session.close();

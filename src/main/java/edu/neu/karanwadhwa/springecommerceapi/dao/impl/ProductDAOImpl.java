@@ -2,6 +2,7 @@ package edu.neu.karanwadhwa.springecommerceapi.dao.impl;
 
 import edu.neu.karanwadhwa.springecommerceapi.dao.ProductDAO;
 import edu.neu.karanwadhwa.springecommerceapi.model.Product;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -30,8 +31,8 @@ public class ProductDAOImpl implements ProductDAO {
     public List<Product> getAll(){
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        org.hibernate.Query query = session.createQuery("FROM Product ");
-        List<Product> products = (List<Product>) query.list();
+        Criteria criteria = session.createCriteria(Product.class);
+        List<Product> products = criteria.list();
 
         session.getTransaction().commit();
         session.close();
