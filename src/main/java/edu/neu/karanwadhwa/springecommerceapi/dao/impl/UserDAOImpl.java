@@ -40,8 +40,11 @@ public class UserDAOImpl implements UserDAO {
         session.beginTransaction();
         Query query = session.createQuery("FROM User where email = :emailParam");
         query.setParameter("emailParam", email);
+        User user = (User) query.uniqueResult();
 
-        return (User) query.uniqueResult();
+        session.getTransaction().commit();
+        session.close();
+        return user;
     }
 
     @Override

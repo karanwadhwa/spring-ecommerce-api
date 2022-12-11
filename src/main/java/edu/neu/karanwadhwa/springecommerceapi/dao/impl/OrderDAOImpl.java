@@ -51,6 +51,10 @@ public class OrderDAOImpl implements OrderDAO {
 //        Query query = session.createQuery("SELECT o.orderId, o.createdOn, o.orderTotal, o.status, o.items FROM Order o left join fetch o.user where o.user.id = :useridParam");
         Query query = session.createQuery("FROM Order o left join fetch o.user where o.user.id = :useridParam");
         query.setParameter("useridParam", userid);
-        return (List<Order>) query.list();
+        List<Order> orders = (List<Order>) query.list();
+
+        session.getTransaction().commit();
+        session.close();
+        return orders;
     }
 }
