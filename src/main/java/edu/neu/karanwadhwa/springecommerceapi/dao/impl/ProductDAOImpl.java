@@ -6,6 +6,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 
@@ -21,6 +22,32 @@ public class ProductDAOImpl implements ProductDAO {
         session.getTransaction().commit();
         session.close();
         return product;
+    }
+
+    @Override
+    public List<Product> findByName(String keyword) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(Product.class);
+        criteria.add(Restrictions.ilike("name","%"+keyword+"%"));
+        List<Product> products = (List<Product>) criteria.list();
+
+        session.getTransaction().commit();
+        session.close();
+        return products;
+    }
+
+    @Override
+    public List<Product> findBySellerId(int sellerId){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(Product.class);
+        criteria.add(Restrictions.eq("seller",sellerId));
+        List<Product> products = (List<Product>) criteria.list();
+
+        session.getTransaction().commit();
+        session.close();
+        return products;
     }
 
     @Override

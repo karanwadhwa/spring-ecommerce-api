@@ -36,9 +36,9 @@ public class ProductService {
         return productDAO.findById(id);
     }
 
-//    public List<Product> getProductByName(String name){
-//        return productRepository.findByName(name);
-//    }
+    public List<Product> getProductByName(String name){
+        return productDAO.findByName(name);
+    }
 
     public Product updateProduct(Product newItem){
         Product product = productDAO.findById(newItem.getId());
@@ -55,7 +55,7 @@ public class ProductService {
         return "Product deleted: #"+id;
     }
 
-//    public List<Product> getProductBySellerId(int sellerId) {
-//        return productRepository.findBySellerId(sellerId);
-//    }
+    public List<Product> getProductBySellerId(int sellerId) {
+        return productDAO.findBySellerId(sellerId);
+    }
 }
