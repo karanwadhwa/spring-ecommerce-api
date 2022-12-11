@@ -27,6 +27,17 @@ public class ProductDAOImpl implements ProductDAO {
         return null;
     }
 
+    public List<Product> getAll(){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        org.hibernate.Query query = session.createQuery("FROM Product ");
+        List<Product> products = (List<Product>) query.list();
+
+        session.getTransaction().commit();
+        session.close();
+        return products;
+    }
+
     @Override
     public Product create(Product product) {
         Session session = sessionFactory.openSession();

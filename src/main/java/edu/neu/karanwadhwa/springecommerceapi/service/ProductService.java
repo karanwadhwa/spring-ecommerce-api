@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
     private final ProductDAO productDAO = new ProductDAOImpl();
@@ -26,9 +28,9 @@ public class ProductService {
         return new ResponseEntity<>(productDAO.create(product), HttpStatus.CREATED);
     }
 
-//    public List<Product> getProducts(){
-//        return (List<Product>) productRepository.findAll();
-//    }
+    public List<Product> getProducts(){
+        return productDAO.getAll();
+    }
 
     public Product getProductById(int id){
         return productDAO.findById(id);
