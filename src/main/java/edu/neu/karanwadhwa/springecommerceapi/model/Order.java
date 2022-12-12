@@ -22,6 +22,7 @@ public class Order {
     @Column(name = "ORDER_TOTAL")
     private double orderTotal;
     private String status;
+    private Address address;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @JoinTable(name = "CUSTOMER_ORDERS", joinColumns = @JoinColumn(name = "USER_ID"))
@@ -80,5 +81,13 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }
