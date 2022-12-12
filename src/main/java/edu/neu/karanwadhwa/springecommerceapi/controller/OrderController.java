@@ -1,10 +1,11 @@
 package edu.neu.karanwadhwa.springecommerceapi.controller;
 
 import edu.neu.karanwadhwa.springecommerceapi.model.Order;
-import edu.neu.karanwadhwa.springecommerceapi.model.User;
+import edu.neu.karanwadhwa.springecommerceapi.service.InvoiceGenerator;
 import edu.neu.karanwadhwa.springecommerceapi.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.View;
 
 import java.util.List;
 
@@ -30,5 +31,12 @@ public class OrderController {
     @GetMapping("/user/{userid}/orders")
     public ResponseEntity<List<Order>> getOrdersByUserId(@PathVariable int userid){
         return orderService.findOrders(userid);
+    }
+
+    @GetMapping("/order/invoice/{orderId}")
+    public View getInvoice(@PathVariable int orderId){
+        Order order = orderService.getOrderById(orderId);
+
+        return new InvoiceGenerator(order);
     }
 }
