@@ -18,7 +18,7 @@ public class EmailService {
     public String sendSimpleEmail(EmailDetails details){
         try{
             SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom(sender);
+            mailMessage.setFrom("CSYE 6220 ecommerce project<"+sender+">");
             mailMessage.setTo(details.getRecipient());
             mailMessage.setText(details.getMsgBody());
             mailMessage.setSubject(details.getSubject());

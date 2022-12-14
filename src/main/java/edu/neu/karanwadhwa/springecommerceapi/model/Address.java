@@ -51,4 +51,9 @@ public class Address {
     public void setPin(String pin) {
         this.pin = pin;
     }
+
+    @Override
+    public String toString() {
+        return street+", "+apt+", "+city+", "+country+" - "+pin;
+    }
 }

@@ -32,7 +32,7 @@ public class OrderService {
         return orderDAO.findById(orderId);
     }
 
-    public ResponseEntity<Order> createOrder(int userid, Order order){
+    public Order createOrder(int userid, Order order){
         User user = userDAO.findById(userid);
         if(user == null) throw new UserAuthenticationException("User Not found!");
         if(!user.getUsertype().equals("customer"))
@@ -47,7 +47,7 @@ public class OrderService {
             }
         }
         productDAO.saveAll(products);
-        return new ResponseEntity<>(userDAO.createOrder(userid, order), HttpStatus.CREATED);
+        return userDAO.createOrder(userid, order);
     }
 
     public ResponseEntity<List<Order>> findOrders(int userid){
