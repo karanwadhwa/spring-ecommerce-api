@@ -24,4 +24,10 @@ public class UserController {
     public ResponseEntity<User> addUserAddress(@PathVariable int userid, @RequestBody Address address){
         return service.addUserAddress(userid, address);
     }
+
+    @PostMapping("/user/profile/update")
+    public ResponseEntity<User> updateUserProfile(@RequestBody User user){
+        return service.updateUserProfile(user);
+
+    }
 }

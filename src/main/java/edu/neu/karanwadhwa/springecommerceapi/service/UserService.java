@@ -45,4 +45,17 @@ public class UserService {
         user.getAddresses().add(address);
         return new ResponseEntity<>(userDAO.update(user), HttpStatus.CREATED);
     }
+
+    public ResponseEntity<User> updateUserProfile(User user){
+        User existingData = userDAO.findById(user.getUserid());
+        if(user.getEmail() == null || user.getEmail().length() == 0)
+            throw new UserAuthenticationException("Invalid Email!");
+        if(user.getFname() == null || user.getFname().length() == 0)
+            throw new UserAuthenticationException("Firstname cannot be empty");
+        existingData.setFname(user.getFname());
+        existingData.setLname(user.getLname());
+        existingData.setEmail(user.getEmail());
+
+        return new ResponseEntity<>(userDAO.update(existingData), HttpStatus.OK);
+    }
 }
