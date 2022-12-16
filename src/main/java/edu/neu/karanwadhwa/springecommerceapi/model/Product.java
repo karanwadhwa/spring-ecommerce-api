@@ -13,6 +13,7 @@ public class Product {
     private double price;
     private int seller;
     private String thumbnail_url;
+    @Column(length = 5000)
     private String description;
     private String category;
 

@@ -6,6 +6,7 @@ import edu.neu.karanwadhwa.springecommerceapi.dao.impl.ProductDAOImpl;
 import edu.neu.karanwadhwa.springecommerceapi.dao.impl.UserDAOImpl;
 import edu.neu.karanwadhwa.springecommerceapi.model.Product;
 import edu.neu.karanwadhwa.springecommerceapi.model.User;
+import edu.neu.karanwadhwa.springecommerceapi.validation.InvalidAPIRequestException;
 import edu.neu.karanwadhwa.springecommerceapi.validation.UserAuthenticationException;
 import edu.neu.karanwadhwa.springecommerceapi.validation.UserNotAllowedException;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,11 @@ public class ProductService {
         if(seller == null) throw new UserAuthenticationException("Seller Not found!");
         if(!seller.getUsertype().equals("seller"))
             throw new UserNotAllowedException(seller.getUsertype());
+
+        if(product.getName().isBlank()) throw new InvalidAPIRequestException("Product name cannot be empty");
+        if(product.getCategory().isBlank()) throw new InvalidAPIRequestException("Product category cannot be empty");
+        if(product.getPrice() == 0) throw new InvalidAPIRequestException("Product price cannot be zero");
+
         return new ResponseEntity<>(productDAO.create(product), HttpStatus.CREATED);
     }
 
@@ -42,6 +48,11 @@ public class ProductService {
 
     public Product updateProduct(Product newItem){
         Product product = productDAO.findById(newItem.getId());
+
+        if(newItem.getName().isBlank()) throw new InvalidAPIRequestException("Product name cannot be empty");
+        if(newItem.getCategory().isBlank()) throw new InvalidAPIRequestException("Product category cannot be empty");
+        if(newItem.getPrice() == 0) throw new InvalidAPIRequestException("Product price cannot be zero");
+
         product.setName(newItem.getName());
         product.setPrice(newItem.getPrice());
         product.setQuantity(newItem.getQuantity());
