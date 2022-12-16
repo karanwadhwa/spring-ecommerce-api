@@ -17,7 +17,7 @@ public class UserService {
 
     public User createUser(User user) {
         User existingUser = userDAO.findByEmail(user.getEmail());
-        if(user.getEmail().isBlank() || !user.getEmail().matches("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$"))
+        if(user.getEmail().isBlank() || !user.getEmail().matches("^[A-Za-z0-9._+\\-\\']+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}$"))
             throw new UserAuthenticationException("Invalid email address");
         if(existingUser != null) throw new UserAuthenticationException("Email already exists. Please login.");
         return userDAO.create(user);
@@ -60,7 +60,7 @@ public class UserService {
         User existingEmail = userDAO.findByEmail(user.getEmail());
         if(existingEmail != null && user.getUserid() != existingEmail.getUserid())
             throw new UserAuthenticationException("An account with this email already exists");
-        if(user.getEmail().isBlank() || !user.getEmail().matches("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$"))
+        if(user.getEmail().isBlank() || !user.getEmail().matches("^[A-Za-z0-9._+\\-\\']+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,}$"))
             throw new UserAuthenticationException("Invalid email address");
         if(user.getFname().isBlank() || user.getFname().length() == 0)
             throw new UserAuthenticationException("Firstname cannot be empty");
