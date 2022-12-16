@@ -2,8 +2,6 @@ package edu.neu.karanwadhwa.springecommerceapi.model;
 
 import javax.persistence.*;
 
-//@Entity
-//@Table(name="ADDRESSES")
 @Embeddable
 public class Address {
     private String street;

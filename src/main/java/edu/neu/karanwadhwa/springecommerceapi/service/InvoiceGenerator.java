@@ -16,12 +16,10 @@ import java.util.Map;
 public class InvoiceGenerator extends AbstractPdfView {
     private final Order order;
     private final User customer;
-    private final Address address;
 
     public InvoiceGenerator(Order order) {
         this.order = order;
         this.customer = order.getUser();
-        this.address = order.getAddress();
     }
 
     @Override
@@ -42,7 +40,7 @@ public class InvoiceGenerator extends AbstractPdfView {
         customerDetails.add(new Chunk("\nEmail: ", textBold));
         customerDetails.add(new Chunk(customer.getEmail(), textFont));
         customerDetails.add(new Chunk("\nAddress: ", textBold));
-        customerDetails.add(new Chunk(address.getStreet()+", "+address.getApt()+", "+address.getCity()+", "+address.getCountry()+" - "+address.getPin(), textFont));
+        customerDetails.add(new Chunk(order.getAddress()));
         document.add(customerDetails);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd, HH:mm");

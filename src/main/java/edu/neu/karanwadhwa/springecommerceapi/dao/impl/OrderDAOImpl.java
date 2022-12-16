@@ -16,7 +16,9 @@ public class OrderDAOImpl implements OrderDAO {
     public Order findById(int id) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Order order = session.get(Order.class, id);
+        Query query = session.createQuery("FROM Order o left join fetch o.user where o.orderId = :orderidParam");
+        query.setParameter("orderidParam", id);
+        Order order = (Order) query.uniqueResult();
 
         session.getTransaction().commit();
         session.close();
@@ -48,7 +50,6 @@ public class OrderDAOImpl implements OrderDAO {
     public List<Order> findByUserId(int userid) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-//        Query query = session.createQuery("SELECT o.orderId, o.createdOn, o.orderTotal, o.status, o.items FROM Order o left join fetch o.user where o.user.id = :useridParam");
         Query query = session.createQuery("FROM Order o left join fetch o.user where o.user.id = :useridParam");
         query.setParameter("useridParam", userid);
         List<Order> orders = (List<Order>) query.list();

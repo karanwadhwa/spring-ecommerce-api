@@ -47,7 +47,7 @@ public class OrderController {
         messageBody.append("Thank you for placing your order\n\n");
         messageBody.append("Order Details:");
         messageBody.append("\nStatus: ").append(createdOrder.getStatus());
-        messageBody.append("\nShipping Address: ").append(createdOrder.getAddress().toString());
+        messageBody.append("\nShipping Address: ").append(createdOrder.getAddress());
         messageBody.append("\nProducts in your order: ");
         for(OrderItem item : createdOrder.getItems())
             messageBody.append("\n").append(item.getQuantity()).append(" x ").append(item.getName()).append(",");

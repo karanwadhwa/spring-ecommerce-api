@@ -15,19 +15,19 @@ import java.util.Date;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ORDER_ID")
+    @Column(name = "ID")
     private int orderId;
     @Column(name = "CREATED_ON")
     private Date createdOn = new Date();
     @Column(name = "ORDER_TOTAL")
     private double orderTotal;
     private String status;
-    private Address address;
+    private String address;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @JoinTable(name = "CUSTOMER_ORDERS", joinColumns = @JoinColumn(name = "USER_ID"))
+    @JoinTable(name = "CUSTOMER_ORDERS", joinColumns = @JoinColumn(name = "ORDER_ID"))
     @GenericGenerator(name = "sequence_gen", strategy = "sequence")
-    @CollectionId(column = @Column(name = "ORDER_ID"), type = @Type(type = "int"), generator = "sequence_gen")
+    @CollectionId(column = @Column(name = "ORDER_ITEM_ID"), type = @Type(type = "int"), generator = "sequence_gen")
     private Collection<OrderItem> items = new ArrayList<>();
 
     @ManyToOne
@@ -83,11 +83,11 @@ public class Order {
         this.status = status;
     }
 
-    public Address getAddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 }
