@@ -8,6 +8,7 @@ import edu.neu.karanwadhwa.springecommerceapi.service.EmailService;
 import edu.neu.karanwadhwa.springecommerceapi.service.InvoiceGenerator;
 import edu.neu.karanwadhwa.springecommerceapi.service.OrderService;
 import edu.neu.karanwadhwa.springecommerceapi.service.UserService;
+import edu.neu.karanwadhwa.springecommerceapi.validation.InvalidAPIRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +50,7 @@ public class OrderController {
         messageBody.append("\nShipping Address: ").append(createdOrder.getAddress().toString());
         messageBody.append("\nProducts in your order: ");
         for(OrderItem item : createdOrder.getItems())
-            messageBody.append("\n").append(item.getName()).append(",");
+            messageBody.append("\n").append(item.getQuantity()).append(" x ").append(item.getName()).append(",");
         messageBody.append("\nOrder Total: ").append(createdOrder.getOrderTotal());
         messageBody.append("\n\nDownload invoice here: ").append("http://localhost:8080/order/invoice/").append(createdOrder.getOrderId());
 
@@ -66,6 +67,7 @@ public class OrderController {
     @GetMapping("/order/invoice/{orderId}")
     public View getInvoice(@PathVariable int orderId){
         Order order = orderService.getOrderById(orderId);
+        if(order == null) throw new InvalidAPIRequestException("Order does not exist");
         return new InvoiceGenerator(order);
     }
 }
